@@ -1,25 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './App.css';
 import { getAgenda, getContacts, updateContact, deleteContact, createAgenda, createContact, deleteAgenda } from './Services/api';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import AgendaControls from './AgendaControls';
+import { Context } from './Services/Context'; // Importar el contexto
 
-//all the fucking logic is here except for all the api's functions... 
 const Contact = () => {
-  const [contacts, setContacts] = useState([]); // List of all contacts
-  const [selectedContact, setSelectedContact] = useState(null); // Currently selected contact
-  const [loading, setLoading] = useState(false); // Loading state
-  const [selectedContactList, setSelectedContactList] = useState([]); // List of selected contacts and their agendas
-  const [editMode, setEditMode] = useState(false); // Edit mode state
-  const [editingContact, setEditingContact] = useState(null); // Select Contact to edit
-  const [contactName, setContactName] = useState(""); // Contact Name
-  const [contactPhone, setContactPhone] = useState(""); // Contact's number
-  const [contactEmail, setContactEmail] = useState(""); // Contact's E-mail
-  const [contactAddress, setContactAddress] = useState(""); // Contact's Address
-  const [newAgendaName, setNewAgendaName] = useState(""); // New agenda's name
-  const [showAddContactForm, setShowAddContactForm] = useState(false); // Show/hide add contact form
-  const [selectedAgendaSlug, setSelectedAgendaSlug] = useState(""); // Slug of the selected agenda
+  // Usar el contexto para acceder a los estados globales
+  const {
+    contacts,
+    setContacts,
+    selectedContact,
+    setSelectedContact,
+    loading,
+    setLoading,
+    error,
+    setError,
+    selectedContactList,
+    setSelectedContactList,
+    editMode,
+    setEditMode,
+    editingContact,
+    setEditingContact,
+    contactName,
+    setContactName,
+    contactPhone,
+    setContactPhone,
+    contactEmail,
+    setContactEmail,
+    contactAddress,
+    setContactAddress,
+    newAgendaName,
+    setNewAgendaName,
+    showAddContactForm,
+    setShowAddContactForm,
+    selectedAgendaSlug,
+    setSelectedAgendaSlug,
+  } = useContext(Context);
 
   // Fetch contacts when the component mounts
   useEffect(() => {
@@ -29,6 +47,7 @@ const Contact = () => {
         const fetchedContacts = await getContacts();
         setContacts(fetchedContacts);
       } catch (error) {
+        setError(error); // Manejar errores
         console.error('Error loading contacts:', error);
       } finally {
         setLoading(false);
@@ -36,7 +55,7 @@ const Contact = () => {
     };
 
     fetchContacts();
-  }, []);
+  }, [setContacts, setLoading, setError]); // Dependencias del useEffect
 
   // Handle contact selection from dropdown
   const handleSelectContact = (event) => {

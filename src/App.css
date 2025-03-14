@@ -197,8 +197,8 @@ img {
 .button-container {
   display: flex;
   gap: 0.5rem;
-  justify-content: flex-end;  /* Alinea los botones a la derecha */
-  width: 40%;  /* Ajusta el ancho si es necesario */
+  justify-content: flex-end; 
+  width: 40%;  
 }
 
 .edit-form-overlay {

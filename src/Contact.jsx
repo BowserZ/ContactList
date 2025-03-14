@@ -4,10 +4,9 @@ import { getAgenda, getContacts, updateContact, deleteContact, createAgenda, cre
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import AgendaControls from './AgendaControls';
-import { Context } from './Services/Context'; // Importar el contexto
+import { Context } from './Services/Context';
 
 const Contact = () => {
-  // Usar el contexto para acceder a los estados globales
   const {
     contacts,
     setContacts,
@@ -15,8 +14,6 @@ const Contact = () => {
     setSelectedContact,
     loading,
     setLoading,
-    error,
-    setError,
     selectedContactList,
     setSelectedContactList,
     editMode,
@@ -47,7 +44,6 @@ const Contact = () => {
         const fetchedContacts = await getContacts();
         setContacts(fetchedContacts);
       } catch (error) {
-        setError(error); // Manejar errores
         console.error('Error loading contacts:', error);
       } finally {
         setLoading(false);
@@ -55,7 +51,7 @@ const Contact = () => {
     };
 
     fetchContacts();
-  }, [setContacts, setLoading, setError]); // Dependencias del useEffect
+  }, [setContacts, setLoading]);
 
   // Handle contact selection from dropdown
   const handleSelectContact = (event) => {
@@ -166,7 +162,7 @@ const Contact = () => {
       await deleteContact(agendaName, contactId);
       setSelectedContactList(prevList =>
         prevList.map(item =>
-          item.contact.id === selectedContact.id
+          item.contact.slug === agendaName
             ? {
               ...item,
               agenda: item.agenda.filter(contact => contact.id !== contactId)
@@ -191,6 +187,10 @@ const Contact = () => {
     try {
       await createAgenda(newAgendaName);
       alert('Agenda created successfully');
+
+      const updatedContacts = await getContacts();
+      setContacts(updatedContacts);
+
       setNewAgendaName("");
     } catch (error) {
       console.error('Error creating agenda:', error);
@@ -224,7 +224,7 @@ const Contact = () => {
     }
 
     try {
-      const newContact = await createContact(
+      await createContact(
         selectedAgendaSlug,
         contactName,
         contactPhone,

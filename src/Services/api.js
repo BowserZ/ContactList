@@ -1,6 +1,4 @@
-// src/Services/api.js
-
-// Crear una agenda
+// Creates an Agenda
 export async function createAgenda(name) {
   const url = `https://playground.4geeks.com/contact/agendas/${name}`;
 
@@ -13,7 +11,7 @@ export async function createAgenda(name) {
   console.log("User added");
 }
 
-// Crear un contacto en una agenda
+// Creates contacts in the agenda
 export async function createContact(name, contactName, contactPhone, contactMail, contactAddress) {
   const url = `https://playground.4geeks.com/contact/agendas/${name}/contacts`;
 
@@ -38,7 +36,7 @@ export async function createContact(name, contactName, contactPhone, contactMail
   return await response.json();
 }
 
-// Obtener todos los contactos de una agenda
+// Obtains all Contacts from an agenda
 export async function getAgenda(name) {
   const url = `https://playground.4geeks.com/contact/agendas/${name}/contacts`;
 
@@ -56,7 +54,7 @@ export async function getAgenda(name) {
   return data.contacts;
 }
 
-// Obtener todas las agendas
+// Obtains all Agendas
 export async function getContacts() {
   const url = `https://playground.4geeks.com/contact/agendas?offset=0&limit=100`;
   try {
@@ -78,7 +76,7 @@ export async function getContacts() {
   }
 }
 
-// Actualizar un contacto
+// Updates a contact
 export async function updateContact(name, id, updatedData) {
   const url = `https://playground.4geeks.com/contact/agendas/${name}/contacts/${id}`;
 
@@ -98,7 +96,7 @@ export async function updateContact(name, id, updatedData) {
   return await response.json();
 }
 
-// Eliminar una agenda
+// Eliminates an Agenda
 export async function deleteAgenda(name) {
   const url = `https://playground.4geeks.com/contact/agendas/${name}`;
 
@@ -111,7 +109,7 @@ export async function deleteAgenda(name) {
   console.log("Agenda deleted");
 }
 
-// Eliminar un contacto de una agenda
+// Eliminate contacts from an Agenda
 export async function deleteContact(name, id) {
   const url = `https://playground.4geeks.com/contact/agendas/${name}/contacts/${id}`;
 

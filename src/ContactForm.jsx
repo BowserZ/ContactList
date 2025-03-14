@@ -1,7 +1,6 @@
 import React from "react";
 import Button from "./Button";
 
-// Create And Edit Contacts
 const ContactForm = ({
   title,
   contactName,
@@ -17,17 +16,40 @@ const ContactForm = ({
   saveButtonLabel = "Save",
   cancelButtonLabel = "Cancel",
 }) => {
+  // Function to validate input length
+  const validateInput = (value, fieldName, maxLength) => {
+    if (value.length > maxLength) {
+      alert(`${fieldName} cannot exceed ${maxLength} characters.`);
+      return false;
+    }
+    return true;
+  };
+
+  // Function to handle save with validation
+  const handleSaveWithValidation = () => {
+    if (
+      !validateInput(contactName, "Name", 30) ||
+      !validateInput(contactPhone, "Phone", 40) ||
+      !validateInput(contactEmail, "Email", 40) ||
+      !validateInput(contactAddress, "Address", 40)
+    ) {
+      return; // Stop the process if any validation fails
+    }
+    onSave(); // Call the onSave function if everything is valid
+  };
+
   return (
     <div className="edit-form-overlay">
       <div className="edit-form">
-        <h3>{title}</h3> {/* Título del formulario */}
+        <h3>{title}</h3>
         <div>
           <label>Name:</label>
           <input
             type="text"
             value={contactName}
-            onChange={(e) => setContactName(e.target.value)} // Update name
+            onChange={(e) => setContactName(e.target.value)}
             placeholder="Contact Name"
+            maxLength={30}
           />
         </div>
         <div>
@@ -35,8 +57,9 @@ const ContactForm = ({
           <input
             type="text"
             value={contactPhone}
-            onChange={(e) => setContactPhone(e.target.value)} // Update phone #
+            onChange={(e) => setContactPhone(e.target.value)}
             placeholder="Phone Number"
+            maxLength={40}
           />
         </div>
         <div>
@@ -44,8 +67,9 @@ const ContactForm = ({
           <input
             type="email"
             value={contactEmail}
-            onChange={(e) => setContactEmail(e.target.value)} // Update e-mail
+            onChange={(e) => setContactEmail(e.target.value)}
             placeholder="E-mail"
+            maxLength={40}
           />
         </div>
         <div>
@@ -53,19 +77,20 @@ const ContactForm = ({
           <input
             type="text"
             value={contactAddress}
-            onChange={(e) => setContactAddress(e.target.value)} // Update Address
+            onChange={(e) => setContactAddress(e.target.value)}
             placeholder="Address"
+            maxLength={40}
           />
         </div>
         <div className="form-buttons">
           <Button
             label={saveButtonLabel}
-            onClick={onSave} // Save Changes
+            onClick={handleSaveWithValidation}
             className="btn-success"
           />
           <Button
             label={cancelButtonLabel}
-            onClick={onCancel} // Cancel and close form
+            onClick={onCancel}
             className="btn-secondary"
           />
         </div>

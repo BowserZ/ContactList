@@ -26,8 +26,6 @@ const ContextWrapper = ({ children }) => {
         setSelectedContact,
         loading,
         setLoading,
-        error,
-        setError,
         selectedContactList,
         setSelectedContactList,
         editMode,
